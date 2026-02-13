@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EnvLaw Hub - 글로벌 기업 환경법 대응 플랫폼</title>
+
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="main2.css">
+    <link rel="stylesheet" href="main3.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" as="style" crossorigin
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+</head>
+
+<body>
+
+<header>
+    <nav>
+        <div class="logo" onclick="location.href='index.html'" style="cursor:pointer;">EnvLaw Hub</div>
+        <div class="nav-container">
+            <ul>
+                <li><a href="index.html">홈</a></li>
+                <li><a href="#">통합 검색</a></li>
+                <li><a href="#">규제 리포트</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <button id="loginBtn" class="btn-login">로그인</button>
+                <button id="signupBtn" class="btn-signup">회원가입</button>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<section class="hero">
+    <div class="hero-content">
+        <h1>글로벌 환경 규제 대응,<br><span>EnvLaw Hub가 파트너가 됩니다.</span></h1>
+        <p>국내 환경법부터 유럽 CBAM, 미국 IRA까지<br>
+            기업을 위한 맞춤형 컴플라이언스 정보를 확인하세요.</p>
+    </div>
+</section>
+
+<main class="dual-container">
+    <section class="law-section domestic">
+        <div class="section-header">
+            <i class="fas fa-landmark"></i>
+            <h2>국내 환경법 규제</h2>
+            <p>대한민국 환경부 및 지자체 주요 법령</p>
+        </div>
+        <div class="category-list">
+            <div class="category-item" data-category="domestic-climate">
+                <i class="fas fa-leaf"></i> <span>기후위기 및 에너지</span>
+            </div>
+            <div class="category-item" data-category="domestic-resource">
+                <i class="fas fa-recycle"></i> <span>자원순환 및 폐기물</span>
+            </div>
+            <div class="category-item" data-category="domestic-pollution">
+                <i class="fas fa-water"></i> <span>대기 및 수질 관리</span>
+            </div>
+            <div class="category-item" data-category="domestic-safety">
+                <i class="fas fa-vials"></i> <span>생활 안전 및 화학 물질</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="law-section global">
+        <div class="section-header">
+            <i class="fas fa-globe-americas"></i>
+            <h2>해외 주요국 환경법</h2>
+            <p>EU · 미국 · 중국 · 일본 핵심 규제</p>
+        </div>
+        <div class="country-grid">
+            <div class="country-item" data-category="global-eu">
+                <img src="https://flagcdn.com/w80/eu.png" alt="EU">
+                <span>유럽연합(EU)</span>
+            </div>
+            <div class="country-item" data-category="global-usa">
+                <img src="https://flagcdn.com/w80/us.png" alt="USA">
+                <span>미국(USA)</span>
+            </div>
+            <div class="country-item" data-category="global-china">
+                <img src="https://flagcdn.com/w80/cn.png" alt="China">
+                <span>중국(China)</span>
+            </div>
+            <div class="country-item" data-category="global-japan">
+                <img src="https://flagcdn.com/w80/jp.png" alt="Japan">
+                <span>일본(Japan)</span>
+            </div>
+        </div>
+    </section>
+</main>
+
+<div id="authModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+
+        <form id="loginForm" class="auth-form">
+            <h2>EnvLaw Hub 로그인</h2>
+            <input type="email" id="loginEmail" placeholder="이메일 주소" required>
+            <input type="password" id="loginPassword" placeholder="비밀번호" required>
+            <button type="submit" class="btn-submit">로그인</button>
+            <p class="switch-text">계정이 없으신가요? <span id="toSignup">회원가입</span></p>
+        </form>
+
+        <form id="signupForm" class="auth-form" style="display: none;">
+            <h2>EnvLaw Hub 회원가입</h2>
+            <input type="text" id="signupName" placeholder="이름" required>
+            <input type="email" id="signupEmail" placeholder="이메일 주소" required>
+            <input type="password" id="signupPassword" placeholder="비밀번호" required>
+            <button type="submit" class="btn-submit">가입 완료</button>
+            <p class="switch-text">이미 회원이신가요? <span id="toLogin">로그인</span></p>
+        </form>
+    </div>
+</div>
+
+<footer>
+    <p>&copy; 2026 EnvLaw Hub. 비즈니스 환경 컴플라이언스 솔루션.</p>
+</footer>
+
+<script src="main.js"></script>
+<script src="login.js"></script>
+
+</body>
+</html>

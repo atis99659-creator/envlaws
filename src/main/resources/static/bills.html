@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EnvLaw Hub - 법안 리스트</title>
+
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="main2.css">
+    <link rel="stylesheet" href="main3.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+
+    <style>
+        /* 페이지 기본 레이아웃 */
+        .list-wrap { padding: 50px 10%; background: #fcfdfd; min-height: 80vh; }
+        .list-header { margin-bottom: 40px; border-bottom: 2px solid #1a7431; padding-bottom: 15px; }
+
+        /* 법안 카드 */
+        .bill-card { background: #fff; border: 1px solid #eee; padding: 25px; border-radius: 12px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; transition: transform 0.2s; }
+        .bill-card:hover { transform: translateX(5px); border-color: #1a7431; }
+        .btn-open-detail { background: #2d3748; color: #fff; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; flex-shrink: 0; margin-left: 20px; }
+
+        /* 모달 레이아웃 */
+        .modal-content.detail-full {
+            width: 95% !important; height: 95vh !important; max-width: 1400px;
+            display: flex; flex-direction: column; padding: 0 !important; overflow: hidden; background: #fff;
+        }
+        .detail-header { padding: 15px 20px; background: #fff; border-bottom: 1px solid #eee; cursor: move; display: flex; justify-content: space-between; align-items: center; }
+        .detail-body { flex: 1; display: flex; flex-direction: column; overflow: hidden; padding: 20px; }
+
+        /* 규제 요약 및 PDF/AI 레이아웃 */
+        .summary-box { padding: 15px; background: #f8f9fa; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #1a7431; display: flex; justify-content: space-between; align-items: center; }
+        .viewer-layout { display: flex; flex: 1; gap: 20px; overflow: hidden; height: 100%; }
+        .pdf-container { flex: 1.2; border: 1px solid #ddd; background: #525659; border-radius: 8px; }
+        .translation-box { flex: 0.8; display: flex; flex-direction: column; border: 1px solid #ddd; border-radius: 8px; background: #fff; overflow: hidden; }
+
+        /* 체크리스트 스타일 */
+        #checklistSection { padding: 15px; border-top: 1px solid #eee; background: #fff; }
+        #checklistItems label { display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 5px 0; border-bottom: 1px dashed #f0f0f0; }
+        #checklistItems label:last-child { border-bottom: none; }
+
+        /* 챗봇 스타일 */
+        .chat-section { border-top: 1px solid #eee; background: #fafafa; }
+        .chat-history { height: 180px; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 10px; }
+        .ai-msg { background: #fff; padding: 10px; border-radius: 10px; border: 1px solid #eee; align-self: flex-start; max-width: 85%; font-size: 0.85rem; }
+        .user-msg { background: #1a7431; color: #fff; padding: 10px; border-radius: 10px; align-self: flex-end; max-width: 85%; font-size: 0.85rem; }
+        .chat-input-group { padding: 10px; display: flex; gap: 5px; background: #fff; border-top: 1px solid #eee; }
+        .chat-input-group input { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 4px; }
+        .chat-input-group button { background: #1a7431; color: #fff; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; }
+    </style>
+</head>
+
+<body>
+<header>
+    <nav>
+        <div class="logo" onclick="location.href='index.html'" style="cursor:pointer">EnvLaw Hub</div>
+    </nav>
+</header>
+
+<div class="list-wrap">
+    <div class="list-header">
+        <h2 id="viewTitle">법안 목록</h2>
+    </div>
+    <div id="dataContainer"></div>
+</div>
+
+<div id="lawDetailModal" class="modal">
+    <div class="modal-content detail-full">
+        <div class="detail-header">
+            <h2 id="modalTitle">법안 제목</h2>
+            <span class="close-detail" style="cursor:pointer; font-size:28px;">&times;</span>
+        </div>
+
+        <div class="detail-body">
+            <div class="summary-box">
+                <div class="summary-text-group">
+                    <h3 style="margin:0; font-size:1.1rem;"><i class="fas fa-info-circle"></i> 규제 요약</h3>
+                    <p id="modalContent" style="margin-top:5px; color:#555;"></p>
+                </div>
+                <button id="btnTranslate" style="padding:10px 20px; border-radius:6px; cursor:pointer; background:#1a7431; color:white; border:none; font-weight:600;">
+                    <i class="fas fa-language"></i> 한국어로 번역/AI 분석
+                </button>
+            </div>
+
+            <div class="viewer-layout">
+                <div class="pdf-container">
+                    <div id="pdfWrapper" style="width:100%; height:100%;"></div>
+                </div>
+
+                <div id="translationContainer" class="translation-box" style="display: none;">
+                    <div class="translation-header" style="padding:12px; background:#f8f9fa; border-bottom:1px solid #eee; font-weight:bold;">
+                        <i class="fas fa-robot"></i> 법안 분석 AI 에이전트
+                    </div>
+
+                    <div id="translationContent" style="flex:1; padding:15px; overflow-y:auto; font-size:0.95rem; line-height:1.6;"></div>
+
+                    <div id="checklistSection">
+                        <h4 style="font-size: 0.95rem; color: #1a7431; margin-bottom: 10px;">
+                            <i class="fas fa-check-square"></i> 기업 준수사항 체크리스트
+                        </h4>
+                        <div id="checklistItems">
+                        </div>
+                    </div>
+
+                    <div class="chat-section">
+                        <div id="chatHistory" class="chat-history">
+                            <div class="ai-msg">안녕하세요! 이 법안의 구체적인 이행 방안이 궁금하신가요?</div>
+                        </div>
+                        <div class="chat-input-group">
+                            <input type="text" id="chatInput" placeholder="질문을 입력하세요...">
+                            <button id="btnChatSend"><i class="fas fa-paper-plane"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="main.js"></script>
+
+</body>
+</html>
