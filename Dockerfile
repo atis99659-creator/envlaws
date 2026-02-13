@@ -1,13 +1,15 @@
-# 1단계: 빌드 (Gradle을 사용하여 JAR 파일 생성)
+# 1단계: 빌드 스테이지
+# gradle 공식 이미지를 사용하여 빌드 진행
 FROM gradle:7.6-jdk17 AS build
-COPY --chown=gradle:gradle . /home/gradle/src
-WORKDIR /home/gradle/src
-# gradlew에 실행 권한을 주고 빌드 시작
+WORKDIR /app
+COPY . .
 RUN chmod +x ./gradlew
 RUN ./gradlew clean bootJar --no-daemon
 
-# 2단계: 실행 (생성된 JAR 실행)
-FROM openjdk:17-jdk-slim
+# 2단계: 실행 스테이지
+# openjdk 대신 유지보수가 잘 되는 eclipse-temurin 이미지를 사용합니다.
+FROM eclipse-temurin:17-jdk-jammy
+WORKDIR /app
+COPY --from=build /app/build/libs/*.jar app.jar
 EXPOSE 8080
-COPY --from=build /home/gradle/src/build/libs/*.jar app.jar
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
