@@ -9,7 +9,8 @@ INSERT INTO law (category, title, content, original_text, country) VALUES
 -- 2. 유럽 (global-eu)
 ('global-eu', '탄소국경조정제도 (CBAM)', 'EU로 수입되는 제품의 탄소 배출량에 비용을 부과하는 제도입니다.', '/EnvLaw hub/eu/cbam/cbam.pdf', 'EU'),
 ('global-eu', '공급망 실사 지침 (CSDDD)', '기업의 전 공급망 내 인권 및 환경 실사를 의무화합니다.', '/EnvLaw hub/eu/csddd/csddd.pdf', 'EU'),
-
+('global-eu', '포장 및 포장폐기물 규정 (PPWR)', '포장재 쓰레기 차단 및 재활용 가능한 순환체계 강화유도.', '/EnvLaw hub/eu/ppwr/ppwr.pdf', 'EU'),
+('global-eu', '에코디자인 규정 (ESPR)', '제품별로 디지털 신분증 부착을 의무화하는 제도입니다..', '/EnvLaw hub/eu/espr/espr.pdf', 'EU'),
 -- 3. 일본 (global-japan)
 ('global-japan', '지구온난화 대책 추진법', '온실가스 배출 억제를 위한 정부와 지자체의 책무를 다룹니다.', '/EnvLaw hub/japan/japan_earth/japan_earth.pdf', 'JP'),
 ('global-japan', '플라스틱 자원순환 촉진법', '플라스틱 제품의 설계부터 폐기까지 전 과정의 순환을 촉진합니다.', '/EnvLaw hub/japan/japan_plastic/japan_plastic.pdf', 'JP'),
